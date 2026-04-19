@@ -34,6 +34,9 @@ python backend/ml/train_new_models.py
 ```
 *Validated Metrics*: Classification Accuracy ~97.7%, Regression R² ~0.89.
 
+## End-to-end Pipeline
+<img width="800" alt="image" src="mermaid-diagram.png">
+
 ### 2. Launch Services
 Run the entire stack using Docker Compose:
 ```bash
