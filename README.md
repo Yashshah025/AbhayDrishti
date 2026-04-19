@@ -1,3 +1,5 @@
+<img width="800" alt="image" src="hackathon.webp">
+
 # AbhayDhristi
 ![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
 ![Machine_Learning](https://img.shields.io/badge/XGBoost-orange)
@@ -17,6 +19,8 @@ using simulated corridor entry flow rates, transport arrival bursts, and corrido
 computes a corridor pressure index, predicts a crush-risk window 8–12 minutes ahead, and triggers a 
 coordinated alert to police, temple trust, and transport authority on a single shared dashboard — not separate 
 WhatsApp groups.
+
+<img width="800" alt="image" src="Demo.jpeg">
 
 ## 🚀 Quick Start (Hackathon Demo)
 
