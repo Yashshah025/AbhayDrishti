@@ -1,9 +1,9 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pandas
 numpy
 scikit-learn
 joblib
-openpyxl
-python-multipart
 xgboost
+python-multipart
+scipy

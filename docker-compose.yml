@@ -1,21 +1,83 @@
-version: '3.8'
+# CrowdShield C2 — full stack
+#   mongo       (persistence)
+#   ml-service  (FastAPI: /predict + /forecast)
+#   core-api    (Node + Express + Socket.io: orchestration, escalation, simulator)
+#   frontend    (React build served by nginx, proxies /api → core-api, /socket.io → core-api)
 
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "5000:5000"
+  mongo:
+    image: mongo:7
+    container_name: ad-mongo
+    restart: unless-stopped
     volumes:
-      - ./data:/app/data
-      - ./models:/app/models
+      - mongo-data:/data/db
+    networks: [crowdshield-net]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 15s
+
+  ml-service:
+    build: ./ml-service
+    container_name: ad-ml-service
+    restart: unless-stopped
+    networks: [crowdshield-net]
+    expose: ["5000"]
+    ports:
+      - "5000:5000"   # exposed for direct curl during dev
+    volumes:
+      # Trained ML artifacts (existing pkl files, plus optional LSTM .pt)
+      - ./minute_level_dataset.csv:/data/minute_level_dataset.csv:ro
+      - ./scaler.pkl:/app/scaler.pkl:ro
+      - ./pca.pkl:/app/pca.pkl:ro
+      - ./xgb_classifier.pkl:/app/xgb_classifier.pkl:ro
+      - ./confidence_regressor.pkl:/app/confidence_regressor.pkl:ro
+      - ./regressor_meta.pkl:/app/regressor_meta.pkl:ro
+      - ./feature_columns.pkl:/app/feature_columns.pkl:ro
+      - ./regressor_feature_columns.pkl:/app/regressor_feature_columns.pkl:ro
     environment:
       - PYTHONUNBUFFERED=1
 
+  core-api:
+    build: ./core-api
+    container_name: ad-core-api
+    restart: unless-stopped
+    networks: [crowdshield-net]
+    ports:
+      - "4000:4000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+      ml-service:
+        condition: service_healthy
+    environment:
+      - PORT=4000
+      - MONGO_URL=mongodb://mongo:27017/crowdshield
+      - ML_URL=http://ml-service:5000
+      - DATASET_PATH=/data/minute_level_dataset.csv
+      - FLOORS_DIR=/app/data/floors
+      - TICK_SECONDS=2
+      - TIER2_AFTER=5
+      - TIER3_AFTER=10
+    volumes:
+      - ./minute_level_dataset.csv:/data/minute_level_dataset.csv:ro
+
   frontend:
     build: ./frontend
+    container_name: ad-frontend
+    restart: unless-stopped
+    networks: [crowdshield-net]
     ports:
-      - "8501:8501"
-    environment:
-      - DOCKER=true
+      - "3000:80"
     depends_on:
-      - backend
+      core-api:
+        condition: service_healthy
+
+volumes:
+  mongo-data:
+
+networks:
+  crowdshield-net:
+    driver: bridge
