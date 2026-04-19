@@ -1,0 +1,34 @@
+# Built application files
+*.spec
+
+# Node
+node_modules/
+dist/
+build/
+.npm/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDEs
+.idea/
+.vscode/
+
+# Ignore large datasets (already tracked by LFS in some cases, but good to be explicit)
+# minute_level_dataset.csv 
+
+# Ignore old backend models to prevent duplicate huge files
+backend/models/pressure_model.pkl
+xgb_classifier.pkl
+minute_level_dataset.csv
