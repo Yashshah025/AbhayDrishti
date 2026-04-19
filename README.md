@@ -1,6 +1,21 @@
 # CrowdShield: AI-Powered Stampede Window Predictor 🛡️
+![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
+![RAG Chatbot](https://img.shields.io/badge/-RAG_Chatbot-orange)
+![Langchain](https://img.shields.io/badge/-Langchain-purple)
+![Chat Groq](https://img.shields.io/badge/LLM-Chat_Groq-green)
+![Frontend](https://img.shields.io/badge/Framework-Flask-red)
 
-A production-ready decision intelligence system designed for high-density environments like temples and pilgrimages in Gujarat (Somnath, Pavagadh, Ambaji, Dwarka). This system predicts crowd crush risks 8–12 minutes in advance and coordinates multi-agency responses via a premium glassmorphism dashboard.
+## Introduction:
+During Navratri, major temples like Ambaji, Dwarka, Somnath, and Pavagadh handle over 1.2 crore pilgrims. While crowd control is focused at temple gates, stampede risks actually build up earlier in narrow access corridors due to sudden inflow bursts and limited space.This project builds a real-time system that analyzes corridor flow, transport arrivals, and width constraints to compute a Crowd Pressure Index. It predicts potential crush-risk situations 8–12 minutes in advance and sends alerts through a single shared dashboard for police, temple trusts, and transport authorities.
+
+## Problem Statement: 
+Ambaji, Dwarka, Somnath, and Pavagadh collectively receive over 1.2 crore pilgrims during Navratri. 
+Stampede risk forms 200–500 metres upstream in narrow access corridors and choke alleys — not at the 
+temple gate. CCTV exists but is watched reactively. Build a real-time crowd pressure intelligence system 
+using simulated corridor entry flow rates, transport arrival bursts, and corridor width constraints. The system 
+computes a corridor pressure index, predicts a crush-risk window 8–12 minutes ahead, and triggers a 
+coordinated alert to police, temple trust, and transport authority on a single shared dashboard — not separate 
+WhatsApp groups.
 
 ## 🚀 Quick Start (Hackathon Demo)
 
@@ -15,12 +30,7 @@ python backend/ml/train_new_models.py
 Run the entire stack using Docker Compose:
 ```bash
 docker-compose up --build
-```
 
-- **Dashboard**: http://localhost:3000
-- **API Backend**: http://localhost:5000/status
-
----
 
 ## 🧠 System Components
 
