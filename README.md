@@ -1,4 +1,4 @@
-# CrowdShield: AI-Powered Stampede Window Predictor 🛡️
+# AbhayDhristi
 ![Python](https://img.shields.io/badge/Python-3.11-blue.svg)
 ![Machine_Learning](https://img.shields.io/badge/XGBoost-orange)
 ![Communication](https://img.shields.io/badge/Socket.io-purple)
