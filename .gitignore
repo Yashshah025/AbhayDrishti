@@ -21,3 +21,4 @@ venv.bak/
 
 # Ignore old backend models to prevent duplicate huge files
 backend/models/pressure_model.pkl
+xgb_classifier.pkl
