@@ -17,33 +17,33 @@ Run the entire stack using Docker Compose:
 docker-compose up --build
 ```
 
-- **Dashboard**: http://localhost:3000
-- **API Backend**: http://localhost:5000/status
+- **Dashboard**: http://localhost:8501
+- **API Backend**: http://localhost:5000
 
----
 
 ## 🧠 System Components
 
 ### 1. Decision Intelligence (Backend)
-- **FastAPI Core**: High-concurrency data ingestion and simulation control.
-- **Risk Classification**: Transitions between **Low, Medium, and High** risk levels using XGBoost.
-- **Confidence Regression**: Real-time confidence score (0-1) based on predicted pressure dynamics.
+- **FastAPI Core**: Handles high-concurrency data ingestion and simulation control.
+- **Smart Classification**: Distinguishes between "TEMPORARY SURGE" and "REAL CRUSH RISK" using historical pressure gradients and density metrics.
+- **Inference Engine**: XGBoost/RandomForest model predicting future pressure indices.
 
-### 2. Premium Real-Time Dashboard (Frontend)
-- **Tech Stack**: React 18, Tailwind CSS, Recharts, Lucide.
-- **Glassmorphism UI**: High-fidelity dark mode interface with real-time gauges and charts.
-- **Multi-Agency View**: Coordinated actions for Police, Temple Trust, and GSRTC Transport.
+### 2. Real-Time Simulation
+- **Transport Bursts**: Simulates sudden vehicle arrivals (bus drops) every 10–15 minutes.
+- **What-if Scenario**: Interactive control to inject 20+ buses into the current stream to test system resilience.
 
-### 3. Real-Time Simulation
-- **Minute-Level Granularity**: Replays `minute_level_dataset.csv` with chronological accuracy.
-- **What-if Scenario**: Interactive slider to inject vehicle bursts and test system response.
+### 3. Shared Dashboard (Frontend)
+- **Live Pressure Graph**: Real-time time-series visualization.
+- **Alert Panel**: Coordinated actions for Police, Temple Trust, and Transport agencies.
+- **Acknowledgement Tracking**: Tracks response times per agency for audit and post-event replay.
 
 ---
 
 ## 🛠️ Tech Stack
-- **Backend**: FastAPI, Python 3.11, XGBoost, Scikit-Learn.
-- **Frontend**: React, Tailwind CSS, Vite (Production build served via Nginx).
-- **Deployment**: Docker, Docker-Compose.
+- **Backend**: FastAPI, Python 3.9
+- **ML Engine**: Scikit-Learn (RandomForest/XGBoost), Pandas, Numpy
+- **Frontend**: Streamlit, Plotly (Dynamic Viz)
+- **Deployment**: Docker, Docker-Compose
 
 ---
 

@@ -1,12 +1,18 @@
 # Built application files
 *.spec
+dist/
+build/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Python
 __pycache__/
 *.py[cod]
 *.so
-
-# Environments
 .env
 .venv
 env/
@@ -18,6 +24,14 @@ venv.bak/
 # IDEs
 .idea/
 .vscode/
+.DS_Store
 
-# Ignore old backend models to prevent duplicate huge files
+# Large Data & Models (Hackathon recommendation: Store elsewhere or use LFS)
+*.csv
+*.pkl
+*.pt
+*.h5
+
+# Project Specific
 backend/models/pressure_model.pkl
+xgb_classifier.pkl

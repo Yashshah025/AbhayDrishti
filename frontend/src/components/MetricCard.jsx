@@ -7,11 +7,11 @@ export default function MetricCard({ icon, label, value, unit = '', sub, accent 
     purple: 'from-purple-500/20 to-transparent border-purple-500/20',
   }
   const textMap = {
-    cyan:   'text-cyan-300',
-    green:  'text-green-400',
-    amber:  'text-amber-400',
-    red:    'text-red-400',
-    purple: 'text-purple-400',
+    cyan:   'text-cyan-600 dark:text-cyan-300',
+    green:  'text-green-600 dark:text-green-400',
+    amber:  'text-amber-600 dark:text-amber-400',
+    red:    'text-red-600 dark:text-red-400',
+    purple: 'text-purple-600 dark:text-purple-400',
   }
 
   return (

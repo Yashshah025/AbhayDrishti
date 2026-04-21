@@ -78,7 +78,8 @@ export default function SiteDashboard() {
         : a))
   }, [])
 
-  const openAlert = alerts.find((a) => a.status === 'open')
+  const openAlerts = alerts.filter(a => a.status === 'open')
+  const openAlert = openAlerts.find(a => a.type === 'GENUINE CRUSH RISK') || openAlerts[0]
 
   return (
     <motion.div

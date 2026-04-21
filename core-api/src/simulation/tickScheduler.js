@@ -158,7 +158,7 @@ export class TickScheduler {
     this.lastRisk[site.id] = prediction.risk_level;
 
     // Run escalation engine (creates/escalates alerts as needed)
-    await evaluateEscalation(site.id, enriched, prediction, forecast, tickCount);
+    await evaluateEscalation(site.id.toUpperCase(), enriched, prediction, forecast, tickCount);
 
     return {
       siteId: site.id,

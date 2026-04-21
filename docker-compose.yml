@@ -3,6 +3,11 @@
 #   ml-service  (FastAPI: /predict + /forecast)
 #   core-api    (Node + Express + Socket.io: orchestration, escalation, simulator)
 #   frontend    (React build served by nginx, proxies /api → core-api, /socket.io → core-api)
+# CrowdShield C2 — full stack
+#   mongo       (persistence)
+#   ml-service  (FastAPI: /predict + /forecast)
+#   core-api    (Node + Express + Socket.io: orchestration, escalation, simulator)
+#   frontend    (React build served by nginx, proxies /api → core-api, /socket.io → core-api)
 
 services:
   mongo:
@@ -11,9 +16,9 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
-    networks: [crowdshield-net]
+    networks: [ crowdshield-net ]
     healthcheck:
-      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      test: [ "CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok" ]
       interval: 10s
       timeout: 5s
       retries: 6
@@ -23,10 +28,10 @@ services:
     build: ./ml-service
     container_name: ad-ml-service
     restart: unless-stopped
-    networks: [crowdshield-net]
-    expose: ["5000"]
+    networks: [ crowdshield-net ]
+    expose: [ "5000" ]
     ports:
-      - "5000:5000"   # exposed for direct curl during dev
+      - "5000:5000" # exposed for direct curl during dev
     volumes:
       # Trained ML artifacts (existing pkl files, plus optional LSTM .pt)
       - ./minute_level_dataset.csv:/data/minute_level_dataset.csv:ro
@@ -44,7 +49,7 @@ services:
     build: ./core-api
     container_name: ad-core-api
     restart: unless-stopped
-    networks: [crowdshield-net]
+    networks: [ crowdshield-net ]
     ports:
       - "4000:4000"
     depends_on:
@@ -68,7 +73,7 @@ services:
     build: ./frontend
     container_name: ad-frontend
     restart: unless-stopped
-    networks: [crowdshield-net]
+    networks: [ crowdshield-net ]
     ports:
       - "3000:80"
     depends_on:
@@ -77,6 +82,7 @@ services:
 
 volumes:
   mongo-data:
+
 
 networks:
   crowdshield-net:

@@ -27,23 +27,44 @@ const safeEmit = (event, payload) => {
   if (emitter?.emitToState) emitter.emitToState(event, payload);
 };
 
+const lowRiskCounters = {};
+
 /**
  * Per-tick evaluation: decides if a new alert should be created and
- * whether existing open alerts should escalate.
+ * whether existing open alerts should escalate. Also handles auto-resolution.
  *
- * @param {string} siteId
+ * @param {string} rawSiteId
  * @param {object} tick    enriched simulator row
  * @param {object} pred    ml-service /predict response
  * @param {number[]} forecast 15-min forecast (or [])
  * @param {number} currentTick global tick counter
  */
-export async function evaluate(siteId, tick, pred, forecast, currentTick) {
+export async function evaluate(rawSiteId, tick, pred, forecast, currentTick) {
+  const siteId = rawSiteId.toUpperCase();
+
   // 1) Existing open alerts → check escalation
   const openAlerts = await Alert.find({ siteId, status: 'open' });
   for (const a of openAlerts) await maybeEscalate(a, currentTick);
 
   // 2) New alert?
   const cls = classifyAlert(tick, pred);
+
+  // 3) Smart Auto-Resolution Logic
+  // If risk is 'Low' for 3 consecutive ticks, resolve any open alerts for this site.
+  if (pred.risk_level === 'Low') {
+    lowRiskCounters[siteId] = (lowRiskCounters[siteId] || 0) + 1;
+    if (lowRiskCounters[siteId] >= 3 && openAlerts.length > 0) {
+      console.log(`[escalation] Auto-resolving ${openAlerts.length} alerts for ${siteId} after 3 mins of safety.`);
+      for (const a of openAlerts) {
+        await resolve(a._id, 'system-auto');
+      }
+      lowRiskCounters[siteId] = 0; // reset after resolution
+    }
+  } else {
+    // Risk is Med or High — reset the safety counter
+    lowRiskCounters[siteId] = 0;
+  }
+
   if (!cls) return;
 
   // Suppress duplicate: if open alert of same level exists within last 5 ticks, skip.
